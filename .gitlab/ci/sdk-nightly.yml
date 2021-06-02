@@ -1,6 +1,7 @@
 .sdk-nightly-schedule-rule:
   rules:
     - if: '$CI_PIPELINE_SOURCE =~ /^(schedule)$/ && $DEMISTO_SDK_NIGHTLY == "true"'
+    - if: '$CI_PIPELINE_SOURCE == "trigger" && $DEMISTO_SDK_NIGHTLY == "true"'
 
 
 .upload-entities-to-cortex-xsoar: &upload-entities-to-cortex-xsoar
@@ -140,6 +141,8 @@ demisto-sdk-nightly:trigger-slack-notify:
     - .trigger-slack-notification
   rules:
     - if: '$CI_PIPELINE_SOURCE =~ /^(schedule)$/ && $DEMISTO_SDK_NIGHTLY == "true"'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "trigger" && $DEMISTO_SDK_NIGHTLY == "true"'
       when: always
   variables:
     PIPELINE_TO_QUERY: $CI_PIPELINE_ID
