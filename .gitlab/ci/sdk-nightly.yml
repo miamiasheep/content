@@ -3,6 +3,13 @@
     - if: '$CI_PIPELINE_SOURCE =~ /^(schedule)$/ && $DEMISTO_SDK_NIGHTLY == "true"'
     - if: '$CI_PIPELINE_SOURCE == "trigger" && $DEMISTO_SDK_NIGHTLY == "true"'
 
+.sdk-nightly-schedule-rule-always:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE =~ /^(schedule)$/ && $DEMISTO_SDK_NIGHTLY == "true"'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "trigger" && $DEMISTO_SDK_NIGHTLY == "true"'
+      when: always
+
 
 .upload-entities-to-cortex-xsoar: &upload-entities-to-cortex-xsoar
   - section_start "Upload Entities to Cortex XSOAR" --collapsed
@@ -106,10 +113,9 @@ demisto-sdk-nightly:create-instance:
 demisto-sdk-nightly:run-commands-against-instance:
   extends:
     - .default-job-settings
-    - .sdk-nightly-schedule-rule
+    - .sdk-nightly-schedule-rule-always
   variables:
     INSTANCE_ROLE: "Server Master"
-  when: always
   stage: run-instances
   script:
     - !reference [.open-ssh-tunnel]
@@ -151,11 +157,7 @@ demisto-sdk-nightly:run-commands-against-instance:
 demisto-sdk-nightly:trigger-slack-notify:
   extends:
     - .trigger-slack-notification
-  rules:
-    - if: '$CI_PIPELINE_SOURCE =~ /^(schedule)$/ && $DEMISTO_SDK_NIGHTLY == "true"'
-      when: always
-    - if: '$CI_PIPELINE_SOURCE == "trigger" && $DEMISTO_SDK_NIGHTLY == "true"'
-      when: always
+    - .sdk-nightly-schedule-rule-always
   variables:
     PIPELINE_TO_QUERY: $CI_PIPELINE_ID
     WORKFLOW: 'Demisto SDK Nightly'
