@@ -116,6 +116,7 @@
     paths:
       - /builds/xsoar/content/unit-tests
       - /builds/xsoar/content/artifacts/*
+    when: always
   services:
     - name: docker.artifactory.pan.local/build-tools--image-dind:19.03.12-dind
       alias: docker

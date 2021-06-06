@@ -95,7 +95,6 @@ demisto-sdk-nightly:run-commands-against-instance:
     - .default-job-settings
     - .sdk-nightly-schedule-rule
   variables:
-    DESTROY_INSTANCES: "true"
     INSTANCE_ROLE: "Server Master"
   needs: ["demisto-sdk-nightly:create-instance", "demisto-sdk-nightly:run-unittests-and-lint", "demisto-sdk-nightly:run-validations", "demisto_sdk_nightly:check_idset_dependent_commands"]
   stage: run-instances
