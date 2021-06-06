@@ -52,6 +52,7 @@ demisto_sdk_nightly:check_idset_dependent_commands:
     - .default-job-settings
     - .sdk-nightly-schedule-rule
   stage: unittests-and-validations
+  needs: []
   inherit:
     variables: true
   variables:
